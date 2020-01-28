@@ -2,6 +2,7 @@
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
+from models.state import State
 
 
 @app_views.route('/states/', methods=['GET'])
@@ -26,22 +27,22 @@ def get_state(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state(state_id):
-    try:
         states = storage.all('State')
         s_id = "State." + state_id
         to_del = states.get(s_id)
-        to_del.delete()
+        if to_del is None:
+            abort(404)
+        storage.delete(to_del)
         storage.save()
         return jsonify({}), 200
-    except Exception:
-        abort(404)
 
-"""
-@app_views.route('/states', methods=['POST'])
+
+@app_views.route('/states/', methods=['POST'])
 def create_state():
-    if not request.json:
+    data = request.get_json()
+    if not data:
         abort(400, 'Not a JSON')
-    elif not 'name' in request.json:
+    elif not 'name' in data:
         abort(400, 'Missing name')
-    state =
-"""
+    state = State(data)
+    return jsonify(state), 201
