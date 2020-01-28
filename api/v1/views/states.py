@@ -15,7 +15,6 @@ def show_states():
 
 @app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id):
-
     try:
         states = storage.all("State")
         s_id = "State." + state_id
@@ -24,18 +23,20 @@ def get_state(state_id):
     except Exception:
         abort(404)
 
+
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state(state_id):
     try:
         states = storage.all('State')
         s_id = "State." + state_id
         to_del = states.get(s_id)
-        del to_del
+        to_del.delete()
         storage.save()
-        return jsonify({})
+        return jsonify({}), 200
     except Exception:
         abort(404)
 
+"""
 @app_views.route('/states', methods=['POST'])
 def create_state():
     if not request.json:
@@ -43,3 +44,4 @@ def create_state():
     elif not 'name' in request.json:
         abort(400, 'Missing name')
     state =
+"""
