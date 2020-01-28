@@ -17,10 +17,10 @@ def teardown(exe):
     storage.close()
 
 
-@app_views.errorhandler(404)
+@app.errorhandler(404)
 def pag_not_found(err):
     """definition of error handler"""
-    return jsonify({"error": "Not found"})
+    return jsonify(error="Not found")
 
 
 if __name__ == "__main__":
