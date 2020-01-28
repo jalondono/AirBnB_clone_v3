@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-from flask import jsonify
+from flask import jsonify, abort
 from api.v1.views import app_views
 from models import storage
+
 
 @app_views.route('/states/', methods=['GET'])
 def show_states():
@@ -10,3 +11,27 @@ def show_states():
     for state in states.values():
         list_t.append(state.to_dict())
     return jsonify(list_t)
+
+
+@app_views.route('/states/<state_id>', methods=['GET'])
+def get_state(state_id):
+
+    try:
+        states = storage.all("State")
+        s_id = "State." + state_id
+        state = states.get(s_id).to_dict()
+        return state
+    except Exception:
+        abort(404)
+
+@app_views.route('/states/<state_id>', methods=['DELETE'])
+def delete_state(state_id):
+    try:
+        states = storage.all('State')
+        s_id = "State." + state_id
+        to_del = states.get(s_id)
+        del to_del
+        storage.save()
+        return jsonify({})
+    except Exception:
+        abort(404)
