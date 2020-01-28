@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 
@@ -35,3 +35,11 @@ def delete_state(state_id):
         return jsonify({})
     except Exception:
         abort(404)
+
+@app_views.route('/states', methods=['POST'])
+def create_state():
+    if not request.json:
+        abort(400, 'Not a JSON')
+    elif not 'name' in request.json:
+        abort(400, 'Missing name')
+    state =
