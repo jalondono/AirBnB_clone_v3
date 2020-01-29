@@ -30,7 +30,8 @@ def get_state(state_id):
         abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """This function delete a state by id"""
     states = storage.all('State')
@@ -49,7 +50,7 @@ def create_state():
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    elif not 'name' in data:
+    elif 'name' not in data:
         abort(400, 'Missing name')
     state = State()
     state.name = data['name']
