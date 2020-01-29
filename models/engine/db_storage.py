@@ -80,7 +80,7 @@ class DBStorage:
         objeto = self.all(cls)
         for i, j in objeto.items():
             match = cls + "." + id
-            if match == id:
+            if match == i:
                 return j
         return None
 
