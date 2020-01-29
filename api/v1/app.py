@@ -2,6 +2,7 @@
 from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
+import os
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -19,4 +20,6 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True)
+    host = os.environ.get("HBNB_API_HOST")
+    port = os.environ.get("HBNB_API_PORT")
+    app.run(host=host, port=port, debug=True, threaded=True)
