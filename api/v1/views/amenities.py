@@ -18,7 +18,8 @@ def show_amenity():
     return jsonify(list_t)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                 methods=['GET'], strict_slashes=False)
 def get_amenity_id(amenity_id):
     """This functions get a specific state by id"""
     amenities = storage.all("Amenity")
@@ -59,7 +60,8 @@ def create_amenity():
     return jsonify(amenity), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_amenity(amenity_id):
     """This function update a state by id"""
     data_dic = request.get_json()
