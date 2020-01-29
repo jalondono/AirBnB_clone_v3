@@ -5,8 +5,9 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states/', methods=['GET'])
+@app_views.route('/states/', methods=['GET'], strict_slashes=False)
 def show_states():
+    """This functions lists all the states"""
     list_t = []
     states = storage.all("State")
     for state in states.values():
@@ -14,8 +15,9 @@ def show_states():
     return jsonify(list_t)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
+    """This functions get a specific state by id"""
     try:
         states = storage.all("State")
         s_id = "State." + state_id
@@ -25,8 +27,9 @@ def get_state(state_id):
         abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
+    """This function delete a state by id"""
     states = storage.all('State')
     s_id = "State." + state_id
     to_del = states.get(s_id)
@@ -37,8 +40,9 @@ def delete_state(state_id):
     return jsonify({}), 200
 
 
-@app_views.route('/states/', methods=['POST'])
+@app_views.route('/states/', methods=['POST'], strict_slashes=False)
 def create_state():
+    """This function create a new state"""
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
@@ -51,8 +55,9 @@ def create_state():
     return jsonify(state), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
+    """This function update a state by id"""
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
