@@ -5,17 +5,18 @@ from api.v1.views import app_views
 import os
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
-app.register_blueprint(app_views, url_prefix='/api/v1')
+app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
 def close(zzz):
+    """Close"""
     storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """Page not found"""
     return jsonify(error="Not found")
 
 
