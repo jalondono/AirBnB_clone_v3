@@ -74,7 +74,8 @@ def update_user(user_id):
     else:
         user = users.get(match)
         for key, value in data.items():
-            if key != "id" and key != "created_at" and key != "updated_at" and key != 'email':
+            if key != "id" and key != "created_at" \
+                    and key != "updated_at" and key != 'email':
                 setattr(user, key, value)
         user.save()
         user = user.to_dict()
