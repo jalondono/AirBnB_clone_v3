@@ -19,7 +19,7 @@ def show_cities(state_id):
     else:
         cities = storage.all("City")
         for city in cities.values():
-            if city['state_id'] == state_id:
+            if city.state_id == state_id:
                 list_t.append(city.to_dict())
     return jsonify(list_t)
 
