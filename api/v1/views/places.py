@@ -6,9 +6,11 @@ from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 from models.place import Place
+from models.city import City
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=['GET'], strict_slashes=False)
 def show_places(city_id):
     """This functions lists all the users"""
     list_t = []
@@ -22,6 +24,7 @@ def show_places(city_id):
             if place.city_id == city_id:
                 list_t.append(place.to_dict())
     return jsonify(list_t)
+
 
 @app_views.route('places/<place_id>', methods=['GET'], strict_slashes=False)
 def get_place(place_id):
@@ -48,23 +51,24 @@ def delete_place(place_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """This function creates a new place"""
     data = request.get_json()
-    cities = storage.all("City")
+    cities = storage.all(City)
     c_id = "City." + city_id
     if cities.get(c_id) is None:
         abort(404)
     if not data:
         abort(400, 'Not a JSON')
-    elif 'user_id' not in data:
+    if 'user_id' not in data:
         abort(400, 'Missing user_id')
     u_id = data['user_id']
     look_user = storage.get("User", u_id)
     if look_user is None:
         abort(404)
-    elif 'name' not in data:
+    if 'name' not in data:
         abort(400, 'Missing name')
     place = Place()
     place.city_id = data['city_id']
