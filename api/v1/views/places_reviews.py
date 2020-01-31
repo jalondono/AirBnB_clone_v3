@@ -56,7 +56,7 @@ def creates_review(place_id):
     elif data.get('text') is None:
         abort(400, 'Missing text')
     look_state = storage.get("Place", place_id)
-    elif look_state is None:
+    if look_state is None:
         abort(404)
     look_state = storage.get("User", data.get('user_id'))
     if look_state is None:
