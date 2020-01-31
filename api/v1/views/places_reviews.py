@@ -19,7 +19,7 @@ def show_reviews(place_id):
     reviews = storage.all("Review")
     for review in reviews.values():
         if place_id == getattr(review, 'place_id'):
-            review_list.append(review.to_dict())
+            l_list.append(review.to_dict())
     return jsonify(l_list), 200
 
 
@@ -62,7 +62,7 @@ def creates_review(place_id):
     if look_state is None:
         abort(404)
     data['place_id'] = place_id
-    new_r = Review(**post_data)
+    new_r = Review(**data)
     storage.new(new_r)
     storage.save()
     return jsonify(new_r.to_dict()), 201
