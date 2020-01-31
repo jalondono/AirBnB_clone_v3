@@ -8,7 +8,6 @@ from flask import jsonify, abort, request
 from models.review import Review
 
 
-
 @app_views.route("/places/<place_id>/reviews",
                  methods=['GET'], strict_slashes=False)
 def show_reviews(place_id):
@@ -73,7 +72,9 @@ def creates_review(place_id):
                  methods=['PUT'], strict_slashes=False)
 def updates_review(review_id):
     """Updates a review"""
-    no_changes= ['id', 'created_at', 'updated_at', 'state_id', 'user_id', 'place_id']
+    no_changes = ['id', 'created_at',
+                        'updated_at', 'state_id',
+                        'user_id', 'place_id']
     r = storage.get("Review", review_id)
     if r is None:
         abort(404)
